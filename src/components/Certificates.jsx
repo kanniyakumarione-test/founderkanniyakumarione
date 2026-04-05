@@ -23,7 +23,10 @@ export default function Certificates() {
 
   return (
     <>
-      <section id="certificates"className="relative py-32">
+      <section
+        id="certificates"
+        className="relative py-32 lg:block hidden"
+      >
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="mb-16 text-center text-4xl font-extrabold">
             Certifications

@@ -2,12 +2,10 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
-import Certificates from "./components/Certificates";
 import Projects from "./components/Projects";
-import Comments from "./components/Comments";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import SmoothScroll from "./components/SmoothScroll";
+import SEO from "./components/SEO";
 import IntentPause from "./components/WelcomeScreen";
 import SectionDivider from "./components/SectionDivider"; // Import divider
 import CanvasBackground from "./components/ui/CanvasBackground";
@@ -17,28 +15,22 @@ export default function App() {
 
   return (
     <>
+      <SEO />
       {paused && <IntentPause onDone={() => setPaused(false)} />}
 
-      <SmoothScroll>
-        <div className="relative overflow-hidden bg-[#020617] text-white">
-          <CanvasBackground />
-          <Navbar />
-          <main>
-            <Hero />
-            <SectionDivider />
-            <About />
-            <SectionDivider />
-            <Certificates />
-            <SectionDivider />
-            <Projects />
-            <SectionDivider />
-            <Comments />
-            <SectionDivider />
-            <Contact />
-            <Footer />
-          </main>
-        </div>
-      </SmoothScroll>
+      <div className="relative overflow-x-hidden bg-[#050505] text-white">
+        <CanvasBackground />
+        <Navbar />
+        <main>
+          <Hero />
+          <SectionDivider />
+          <About />
+          <Projects />
+          <SectionDivider />
+          <Contact />
+          <Footer />
+        </main>
+      </div>
     </>
   );
 }

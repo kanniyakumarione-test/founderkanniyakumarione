@@ -1,154 +1,186 @@
-import { motion, useMotionValue, useTransform } from "framer-motion";
-import { useTypewriter, Cursor } from "react-simple-typewriter";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import portrait from "../assets/profile.jpg";
 
-/* ================= MAGNETIC BUTTON ================= */
-function MagneticButton({ children, onClick, className }) {
-  const ref = useRef(null);
+export default function Hero() {
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+  const y2 = useTransform(scrollY, [0, 500], [0, -150]);
+  const y2Mobile = useTransform(scrollY, [0, 500], [0, -50]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+  // 3D Parallax Tilt Logic
   const x = useMotionValue(0);
   const y = useMotionValue(0);
+  
+  const springConfig = { damping: 20, stiffness: 100 };
+  const xSpring = useSpring(x, springConfig);
+  const ySpring = useSpring(y, springConfig);
+  
+  const rotateX = useTransform(ySpring, [-0.5, 0.5], ["-8deg", "8deg"]);
+  const rotateY = useTransform(xSpring, [-0.5, 0.5], ["8deg", "-8deg"]);
+  
+  const glareX = useTransform(xSpring, [-0.5, 0.5], ["0%", "100%"]);
+  const glareY = useTransform(ySpring, [-0.5, 0.5], ["0%", "100%"]);
 
   const handleMouseMove = (e) => {
-    const rect = ref.current.getBoundingClientRect();
-    const dx = e.clientX - (rect.left + rect.width / 2);
-    const dy = e.clientY - (rect.top + rect.height / 2);
-    x.set(dx * 0.25);
-    y.set(dy * 0.25);
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    
+    const xPct = (mouseX / width) - 0.5;
+    const yPct = (mouseY / height) - 0.5;
+    
+    x.set(xPct);
+    y.set(yPct);
   };
 
-  const reset = () => {
+  const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
   };
 
-  return (
-    <motion.button
-      ref={ref}
-      onClick={onClick}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={reset}
-      style={{ x, y }}
-      whileHover={{ scale: 1.08 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className={className}
-    >
-      {children}
-    </motion.button>
-  );
-}
-
-/* ================= WAVE TEXT ================= */
-function WaveText({ text }) {
-  return (
-    <span className="inline-flex">
-      {text.split("").map((char, i) => (
-        <motion.span
-          key={i}
-          animate={{ y: [0, -6, 0] }}
-          transition={{
-            duration: 1.6,
-            repeat: Infinity,
-            delay: i * 0.05,
-          }}
-          className="inline-block"
-        >
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
-      ))}
-    </span>
-  );
-}
-
-/* ================= HERO ================= */
-export default function Hero() {
-  const [role] = useTypewriter({
-    words: [
-      "React Developer",
-      "Full-Stack Engineer",
-      "UI/UX Enthusiast",
-      "Node.js Specialist",
-      "Freelancer",
-    ],
-    loop: true,
-    delaySpeed: 1800,
-    typeSpeed: 70,
-    deleteSpeed: 40,
-  });
-
-  /* Parallax */
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const rotateX = useTransform(my, [-0.5, 0.5], [6, -6]);
-  const rotateY = useTransform(mx, [-0.5, 0.5], [-6, 6]);
-
-  const handleMouseMove = (e) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    mx.set((e.clientX - r.left) / r.width - 0.5);
-    my.set((e.clientY - r.top) / r.height - 0.5);
-  };
+  // Custom parallax based on screen width
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth < 1024 : false;
+  const portraitY = isMobile ? y2Mobile : y2;
 
   const scrollTo = (id) =>
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section id="home"
-      className="hero relative flex min-h-screen items-center justify-center overflow-hidden"
-      onMouseMove={handleMouseMove}
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center pt-32 pb-24 overflow-hidden bg-[#050505]"
     >
-      {/* Background glow */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-400/20 blur-[200px]" />
-      </div>
-
-      <motion.div
-        style={{ rotateX, rotateY }}
-        className="mx-auto max-w-5xl px-6 text-center"
+      {/* Background Decorative Text - Reduced for mobile & Overflow protected */}
+      <motion.div 
+        style={{ y: y1, opacity: 0.03 }}
+        className="absolute top-1/4 left-0 w-full text-center pointer-events-none select-none overflow-hidden"
       >
-        {/* Headline */}
-        <div className="space-y-4">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-block rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-400 backdrop-blur-md"
-          >
-            Available for new projects
-          </motion.span>
-
-          <h1 className="text-5xl font-black leading-[1.1] tracking-tight text-white sm:text-8xl">
-            I craft <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 bg-clip-text text-transparent">Immersive</span> <br />
-            Digital Experiences
-          </h1>
-
-          <div className="mx-auto mt-6 max-w-2xl text-lg font-medium text-white/50 sm:text-2xl">
-            I'm <span className="text-white">Roshinth</span>, a specialized <br className="sm:hidden" />
-            <span className="text-cyan-400">{role}</span>
-            <Cursor cursorColor="#22d3ee" />
-          </div>
-        </div>
-
-        {/* Description */}
-        <p className="mx-auto mt-8 max-w-3xl text-white/70 leading-relaxed">
-          React.js, Tailwind CSS, Motion Design, UI/UX, Performance Optimization, Java, Spring Boot, Full Stack Development, JavaScript, Web Development.
-        </p>
-
-        {/* Actions */}
-        <div className="mt-14 flex flex-wrap justify-center gap-6">
-          <MagneticButton
-            onClick={() => scrollTo("projects")}
-            className="rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-10 py-4 text-sm font-semibold text-slate-900 shadow-lg"
-          >
-            Explore Projects
-          </MagneticButton>
-
-          <MagneticButton
-            onClick={() => scrollTo("contact")}
-            className="rounded-full border border-white/25 bg-white/5 px-10 py-4 text-sm font-semibold text-white backdrop-blur-md"
-          >
-            Get in Touch
-          </MagneticButton>
-        </div>
+        <span className="text-[30vw] md:text-[25vw] font-serif uppercase tracking-tighter block whitespace-nowrap">VISION</span>
       </motion.div>
+
+      <div className="container mx-auto px-6 relative z-10 grid lg:grid-cols-[1.2fr,0.8fr] gap-12 md:gap-20 items-center">
+        <div className="space-y-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <span className="tag mb-6 block">Visionary Leadership</span>
+            <h1 className="leading-[0.85] tracking-tight text-white mb-8 text-4xl sm:text-6xl lg:text-8xl">
+              Architecting <br />
+              <span className="italic text-[#d4af37] opacity-90">High-Trust</span> <br />
+              Digital Eras.
+            </h1>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="space-y-8"
+          >
+            <p className="text-xl md:text-2xl text-white/50 max-w-xl font-light leading-relaxed">
+              I'm <span className="text-white border-b border-[#d4af37]/40 pb-1">Roshinth Sojan</span>, Founder of Kanniyakumarione. 
+              Spearheading global digital product strategy and experience systems for the next generation of ventures.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 md:gap-10 pt-4">
+              <button
+                onClick={() => scrollTo("projects")}
+                className="button-primary"
+              >
+                Key Initiatives
+              </button>
+              <button
+                onClick={() => scrollTo("contact")}
+                className="button-secondary"
+              >
+                The Briefing
+              </button>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2, delay: 1 }}
+            className="grid grid-cols-2 md:flex md:gap-16 gap-8 pt-12 border-t border-white/5"
+          >
+            {[
+              { label: "Global Ventures", value: "23" },
+              { label: "Strategic Labs", value: "08" },
+              { label: "Yrs Authority", value: "10+" }
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p className="text-3xl font-serif text-white mb-1">{stat.value}</p>
+                <p className="text-[10px] uppercase tracking-[0.3em] text-white/30 whitespace-nowrap">{stat.label}</p>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* 3D Portrait Column */}
+        <motion.div
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          style={{ 
+            y: portraitY,
+            rotateX, 
+            rotateY,
+            perspective: "1200px",
+            transformStyle: "preserve-3d"
+          }}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+          className="relative block mt-32 lg:mt-0 px-4 sm:px-0 cursor-crosshair group"
+        >
+          <div className="relative aspect-[4/5] md:aspect-[3/4.5] overflow-hidden border border-white/5 shadow-2xl transition-all duration-700 group-hover:border-[#d4af37]/20">
+            {/* Natural Professional Look */}
+            <img 
+              src={portrait} 
+              alt="Roshinth Sojan - Founder" 
+              className="w-full h-full object-cover"
+            />
+            
+            {/* Dynamic Glare / Shine Effect */}
+            <motion.div 
+              style={{ 
+                left: glareX, 
+                top: glareY,
+                background: "radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%)"
+              }}
+              className="absolute -translate-x-1/2 -translate-y-1/2 w-[200%] h-[200%] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" 
+            />
+
+            {/* Subtle Gold Tint Overlay */}
+            <div className="absolute inset-0 bg-[#d4af37]/5 mix-blend-overlay pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-100" />
+            
+            {/* Inner frame for strategic depth */}
+            <div className="absolute inset-6 border border-white/10 pointer-events-none group-hover:border-[#d4af37]/40 transition-colors duration-700" />
+          </div>
+          
+          <motion.div 
+            style={{ 
+              opacity,
+              translateZ: "60px", // Float effect
+              rotateX: useTransform(ySpring, [-0.5, 0.5], ["-4deg", "4deg"]),
+              rotateY: useTransform(xSpring, [-0.5, 0.5], ["4deg", "-4deg"])
+            }}
+            className="absolute -bottom-8 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-auto sm:-left-10 p-6 md:p-10 bg-[#080808]/80 border border-white/10 space-y-4 max-w-[80vw] sm:max-w-xs shadow-[0_50px_100px_rgba(0,0,0,0.9)] backdrop-blur-3xl"
+          >
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#d4af37]">Visionary Thesis</p>
+            <p className="text-lg md:text-xl italic font-serif text-white/90 leading-relaxed">
+              "Architecting the digital systems that define the next era of global trust."
+            </p>
+            <div className="h-[1px] w-12 bg-[#d4af37]/40" />
+          </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 }
