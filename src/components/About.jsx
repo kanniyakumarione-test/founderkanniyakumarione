@@ -5,75 +5,64 @@ export default function About() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2
-      }
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } }
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.2, 1, 0.3, 1] } }
   };
 
   return (
-    <section id="about" className="relative py-32 bg-[#0a0a0a]">
+    <section id="about" className="relative py-24 md:py-32 overflow-hidden">
+      {/* Decorative Blur - Scaled for screens */}
+      <div className="absolute top-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#d4af37]/5 blur-[80px] md:blur-[120px] rounded-full translate-y-[-20%] translate-x-[20%] pointer-events-none" />
+
       <motion.div 
-        className="container mx-auto px-6 grid md:grid-cols-2 gap-16 md:gap-24 items-start"
+        className="container mx-auto px-6 flex flex-col lg:grid lg:grid-cols-[0.9fr,1.1fr] gap-16 md:gap-24 items-start"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: "-50px" }}
       >
-        <div className="space-y-12">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-          >
-            <span className="tag mb-6 block">Philosophy</span>
-            <h2 className="text-white leading-tight">
-              Roshinth Sojan: <span className="italic">Visionary Architect</span> <br /> 
-              of Digital Legacies.
+        <div className="space-y-8 md:space-y-12 lg:sticky lg:top-32">
+          <motion.div variants={itemVariants}>
+            <span className="tag mb-6 md:mb-8">Philosophy</span>
+            <h2 className="premium-gradient-text text-balance">
+              Architect of <span className="italic text-[#d4af37]">Digital Legacies</span> <br className="hidden md:block"/> & Global Systems.
             </h2>
           </motion.div>
           
-          <motion.div 
-            className="space-y-8 text-xl text-white/50 font-light leading-relaxed"
-            variants={itemVariants}
-          >
+          <motion.div variants={itemVariants} className="space-y-6 md:space-y-8 text-lg md:text-xl text-white/50 font-light leading-relaxed text-balance">
             <p>
-              Roshinth Sojan oversees <span className="text-white">Kanniyakumarione</span> with a CEO mindset: 
-              merging high-impact product strategy, immersive storytelling, and 
-              disciplined delivery rhythms for the next wave of online experiences.
+              I oversee <span className="text-white font-medium">Kanniyakumarione</span> as a dedicated architect of trust, 
+              merging high-impact product strategy, immersive storytelling, and disciplined delivery cycles.
             </p>
-            <p className="text-lg">
-              Every initiative begins with a founder-level briefing, then flows 
-              into engineered experience systems so teams can move fast without 
-              losing polish or vision.
+            <p className="text-base md:text-lg">
+              Every initiative begins with a deep strategic briefing, evolving into engineered experience systems that 
+              enable ventures to scale rapidly without compromising vision or precision.
             </p>
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-12 md:gap-y-16 w-full">
           {[
-            { tag: "Core Focus", title: "Experience Systems", desc: "Engineering scalable design languages that drive user interaction and growth." },
-            { tag: "Rhythm", title: "Sprint Discipline", desc: "Maintaining high-velocity execution through weekly notes and rigorous insights." },
-            { tag: "Commitment", title: "High-Trust Labs", desc: "Building enduring partnerships through radical transparency and collaboration." },
-            { tag: "Impact", title: "Measurable Wins", desc: "Benchmarked against founder-level KPIs to ensure sustained market momentum." }
+            { tag: "01 // Strategy", title: "Experience Systems", desc: "Engineering scalable design languages that drive interaction and consistent user growth." },
+            { tag: "02 // Execution", title: "Radical Discipline", desc: "Maintaining high-velocity execution through rigorous insight cycles and proven rhythms." },
+            { tag: "03 // Values", title: "High-Trust Labs", desc: "Building enduring digital assets through transparency and unwavering commitment to quality." },
+            { tag: "04 // Impact", title: "Executive KPIs", desc: "Measuring success against mission-critical metrics to ensure sustained global momentum." }
           ].map((item, i) => (
             <motion.div 
               key={item.title}
               variants={itemVariants}
-              className="space-y-6 pt-12 border-t border-white/5 group"
+              className="group space-y-4 md:space-y-6 pt-8 md:pt-10 border-t border-white/5"
             >
-              <p className="text-[10px] uppercase tracking-[0.4em] text-[#d4af37] opacity-60 group-hover:opacity-100 transition-opacity">
+              <p className="text-[8px] md:text-[9px] uppercase tracking-[0.3em] md:tracking-[0.4em] text-[#d4af37]/60 group-hover:text-[#d4af37] transition-colors">
                 {item.tag}
               </p>
-              <h4 className="text-2xl font-serif text-white">{item.title}</h4>
-              <p className="text-sm text-white/40 leading-relaxed font-light">
+              <h4 className="text-xl md:text-2xl text-white group-hover:text-[#d4af37] transition-colors duration-500">{item.title}</h4>
+              <p className="text-xs md:text-sm text-white/40 leading-relaxed font-light">
                 {item.desc}
               </p>
             </motion.div>
@@ -83,3 +72,5 @@ export default function About() {
     </section>
   );
 }
+
+
