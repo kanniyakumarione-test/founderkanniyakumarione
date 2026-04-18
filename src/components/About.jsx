@@ -3,68 +3,68 @@ import { motion } from "framer-motion";
 export default function About() {
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.1 }
-    }
+    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.2, 1, 0.3, 1] } }
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
   };
 
   return (
-    <section id="about" className="relative py-24 md:py-32 overflow-hidden">
-      {/* Decorative Blur - Scaled for screens */}
-      <div className="absolute top-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#d4af37]/5 blur-[80px] md:blur-[120px] rounded-full translate-y-[-20%] translate-x-[20%] pointer-events-none" />
+    <section id="about" className="relative py-32 md:py-48 overflow-hidden bg-[#020202]">
+      {/* Structural Accent */}
+      <div className="absolute left-0 top-0 w-[1px] h-full bg-gradient-to-b from-transparent via-white/5 to-transparent" />
 
       <motion.div 
-        className="container mx-auto px-6 flex flex-col lg:grid lg:grid-cols-[0.9fr,1.1fr] gap-16 md:gap-24 items-start"
+        className="container mx-auto px-6 flex flex-col lg:grid lg:grid-cols-[1fr,1fr] gap-20 md:gap-32"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
+        viewport={{ once: true, margin: "-100px" }}
       >
-        <div className="space-y-8 md:space-y-12 lg:sticky lg:top-32">
-          <motion.div variants={itemVariants}>
-            <span className="tag mb-6 md:mb-8">Philosophy</span>
-            <h2 className="premium-gradient-text text-balance">
-              Architect of <span className="italic text-[#d4af37]">Digital Legacies</span> <br className="hidden md:block"/> & Global Systems.
+        <div className="space-y-12 md:space-y-20 lg:sticky lg:top-40 h-fit">
+          <motion.div variants={itemVariants} className="space-y-10">
+            <span className="tag">Philosophy</span>
+            <h2 className="premium-gradient-text leading-[0.95]">
+              Architect of <br />
+              <span className="italic font-normal">Digital Trust</span> <br /> 
+              & Global Systems.
             </h2>
           </motion.div>
           
-          <motion.div variants={itemVariants} className="space-y-6 md:space-y-8 text-lg md:text-xl text-white/50 font-light leading-relaxed text-balance">
-            <p>
-              I oversee <span className="text-white font-medium">Kanniyakumarione</span> as a dedicated architect of trust, 
-              merging high-impact product strategy, immersive storytelling, and disciplined delivery cycles.
+          <motion.div variants={itemVariants} className="space-y-10">
+            <p className="text-2xl md:text-3xl font-light text-white/60 leading-tight tracking-tight">
+              Executing with radical precision <br /> 
+              to define the digital infrastructure <br /> 
+              of tomorrow.
             </p>
-            <p className="text-base md:text-lg">
-              Every initiative begins with a deep strategic briefing, evolving into engineered experience systems that 
-              enable ventures to scale rapidly without compromising vision or precision.
+            <div className="h-[1px] w-24 bg-[#E8C67E]/40" />
+            <p className="text-lg text-white/30 font-light leading-relaxed max-w-lg">
+              I oversee Kanniyakumarione as a strategic architect, merging high-impact product cycles, immersive narratives, and proven delivery frameworks.
             </p>
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 md:gap-x-12 gap-y-12 md:gap-y-16 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-20">
           {[
-            { tag: "01 // Strategy", title: "Experience Systems", desc: "Engineering scalable design languages that drive interaction and consistent user growth." },
-            { tag: "02 // Execution", title: "Radical Discipline", desc: "Maintaining high-velocity execution through rigorous insight cycles and proven rhythms." },
-            { tag: "03 // Values", title: "High-Trust Labs", desc: "Building enduring digital assets through transparency and unwavering commitment to quality." },
-            { tag: "04 // Impact", title: "Executive KPIs", desc: "Measuring success against mission-critical metrics to ensure sustained global momentum." }
+            { tag: "Protocol I", title: "Experience Systems", desc: "Engineering scalable design languages that drive interaction and consistent user growth." },
+            { tag: "Protocol II", title: "Radical Discipline", desc: "Maintaining high-velocity execution through rigorous insight cycles and proven rhythms." },
+            { tag: "Protocol III", title: "High-Trust Labs", desc: "Building enduring digital assets through transparency and unwavering commitment to quality." },
+            { tag: "Protocol IV", title: "Executive KPIs", desc: "Measuring success against mission-critical metrics to ensure sustained global momentum." }
           ].map((item, i) => (
             <motion.div 
               key={item.title}
               variants={itemVariants}
-              className="group space-y-4 md:space-y-6 pt-8 md:pt-10 border-t border-white/5"
+              className="space-y-8"
             >
-              <p className="text-[8px] md:text-[9px] uppercase tracking-[0.3em] md:tracking-[0.4em] text-[#d4af37]/60 group-hover:text-[#d4af37] transition-colors">
-                {item.tag}
-              </p>
-              <h4 className="text-xl md:text-2xl text-white group-hover:text-[#d4af37] transition-colors duration-500">{item.title}</h4>
-              <p className="text-xs md:text-sm text-white/40 leading-relaxed font-light">
-                {item.desc}
-              </p>
+              <p className="text-[10px] uppercase tracking-[0.5em] text-[#E8C67E]/40">{item.tag}</p>
+              <div className="space-y-5">
+                <h4 className="text-2xl text-white font-serif">{item.title}</h4>
+                <p className="text-sm text-white/40 leading-relaxed font-light">
+                  {item.desc}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -72,5 +72,6 @@ export default function About() {
     </section>
   );
 }
+
 
 
