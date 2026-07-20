@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Home, LayoutGrid, Phone, User } from "lucide-react";
 import logo from "../assets/kanniyakumarione logo.png";
 
 const sections = [
-  { label: "Perspective", id: "home" },
-  { label: "Ventures", id: "projects" },
-  { label: "Briefing", id: "contact" },
+  { label: "Home", id: "home", icon: <Home size={20} /> },
+  { label: "Vision", id: "about", icon: <User size={20} /> },
+  { label: "Platforms", id: "projects", icon: <LayoutGrid size={20} /> },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("home");
-  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
-      const activeSection = sections.find(s => {
+      const allSections = [...sections, { id: "contact" }];
+      const activeSection = allSections.find(s => {
         const el = document.getElementById(s.id);
         if (!el) return false;
         const r = el.getBoundingClientRect();
-        return r.top <= 150 && r.bottom >= 150;
+        // Check if section is well within viewport
+        return r.top <= 200 && r.bottom >= 200;
       });
       if (activeSection) setActive(activeSection.id);
     };
@@ -31,14 +32,16 @@ export default function Navbar() {
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    setIsOpen(false);
   };
 
   return (
     <>
+      {/* =========================================
+          DESKTOP NAVBAR (Hidden on Mobile)
+          ========================================= */}
       <nav
-        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-700 ${
-          scrolled ? "py-6 bg-black/40 backdrop-blur-xl border-b border-white/[0.03]" : "py-10"
+        className={`hidden md:block fixed top-0 left-0 w-full z-[100] transition-all duration-700 ${
+          scrolled ? "py-4 bg-[#030712]/70 backdrop-blur-2xl border-b border-white/10 shadow-lg" : "py-8"
         }`}
       >
         <div className="container mx-auto px-6 flex items-center justify-between">
@@ -50,21 +53,20 @@ export default function Navbar() {
           >
             <div className="relative h-10 w-10">
                <img src={logo} alt="Logo" className="h-full w-full object-contain relative z-10" />
-               <div className="absolute inset-0 bg-[#E8C67E]/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+               <div className="absolute inset-0 bg-[#60a5fa]/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <span className="text-xl font-serif tracking-tight text-white group-hover:text-[#E8C67E] transition-all">
-              Kanniyakumarione
+            <span className="text-xl font-bold tracking-tight text-white group-hover:text-[#60a5fa] transition-all">
+              Kanniyakumari One
             </span>
           </motion.div>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-12 lg:gap-16">
+          <div className="flex items-center gap-12 lg:gap-16">
             {sections.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
-                className={`relative text-[10px] uppercase tracking-[0.4em] transition-all duration-500 hover:text-white ${
-                  active === item.id ? "text-[#E8C67E]" : "text-white/20"
+                className={`relative text-xs uppercase tracking-widest font-semibold transition-all duration-500 hover:text-white ${
+                  active === item.id ? "text-[#60a5fa]" : "text-white/40"
                 }`}
               >
                 {item.label}
@@ -73,57 +75,85 @@ export default function Navbar() {
             
             <button
               onClick={() => scrollTo("contact")}
-              className="px-8 py-3 bg-white/5 border border-white/10 text-[10px] uppercase tracking-[0.3em] hover:bg-[#E8C67E] hover:border-[#E8C67E] hover:text-black transition-all duration-700"
+              className={`px-6 py-2.5 border text-xs font-bold uppercase tracking-widest transition-all duration-500 rounded-full shadow-lg ${
+                active === "contact" 
+                  ? "bg-[#3b82f6] border-[#3b82f6] text-white" 
+                  : "bg-white/5 border-white/10 text-white hover:bg-[#3b82f6] hover:border-[#3b82f6]"
+              }`}
             >
-              Inquiry
+              Contact
             </button>
           </div>
-
-          {/* Mobile Toggle */}
-          <button 
-            className="md:hidden text-white p-2 relative z-[101]"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle Menu"
-          >
-            {isOpen ? <X size={26} strokeWidth={1} /> : <Menu size={26} strokeWidth={1} />}
-          </button>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[90] bg-black/98 backdrop-blur-2xl md:hidden flex flex-col justify-center px-10"
+      {/* =========================================
+          MOBILE MINIMAL TOP BAR (Logo Only)
+          ========================================= */}
+      <nav
+        className={`md:hidden fixed top-0 left-0 w-full z-[90] transition-all duration-500 ${
+          scrolled ? "py-3 bg-[#030712]/90 backdrop-blur-xl border-b border-white/10 shadow-md" : "py-6 bg-transparent"
+        }`}
+      >
+        <div className="container mx-auto px-6 flex justify-center">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={() => scrollTo("home")}
           >
-            <div className="space-y-16">
-              <div className="flex flex-col gap-10">
-                {sections.map((item, i) => (
-                  <motion.button
-                    key={item.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.08 }}
-                    onClick={() => scrollTo(item.id)}
-                    className="text-left group will-change-transform"
-                  >
-                    <span className="block text-[10px] text-[#E8C67E] uppercase tracking-[0.5em] mb-4">0{i + 1}</span>
-                    <span className={`text-5xl font-serif tracking-tight transition-colors ${active === item.id ? "text-white" : "text-white/20"}`}>
-                      {item.label}
-                    </span>
-                  </motion.button>
-                ))}
-              </div>
+            <div className="h-8 w-8">
+               <img src={logo} alt="Logo" className="h-full w-full object-contain" />
             </div>
+            <span className="text-lg font-bold tracking-tight text-white">
+              Kanniyakumari One
+            </span>
           </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      </nav>
+
+      {/* =========================================
+          MOBILE NAVBAR (Floating Bottom Dock)
+          ========================================= */}
+      <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-sm">
+        <motion.div 
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="flex items-center justify-between bg-[#030712]/90 backdrop-blur-2xl border border-white/10 p-2 rounded-full shadow-2xl"
+        >
+          {sections.map((item) => {
+            const isActive = active === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => scrollTo(item.id)}
+                className={`flex flex-col items-center justify-center w-16 h-14 rounded-full transition-all duration-300 ${
+                  isActive ? "bg-[#3b82f6]/10 text-[#60a5fa]" : "text-white/40 hover:text-white"
+                }`}
+              >
+                <div className={`${isActive ? "scale-110 mb-1" : "scale-100 mb-1"} transition-transform duration-300`}>
+                  {item.icon}
+                </div>
+                <span className="text-[9px] font-bold tracking-widest uppercase">{item.label}</span>
+              </button>
+            );
+          })}
+
+          {/* Mobile Contact Button */}
+          <button
+            onClick={() => scrollTo("contact")}
+            className={`flex flex-col items-center justify-center w-16 h-14 rounded-full transition-all duration-300 ${
+              active === "contact" ? "bg-[#3b82f6]/10 text-[#60a5fa]" : "text-white/40 hover:text-white"
+            }`}
+          >
+            <div className={`${active === "contact" ? "scale-110 mb-1" : "scale-100 mb-1"} transition-transform duration-300`}>
+              <Phone size={20} />
+            </div>
+            <span className="text-[9px] font-bold tracking-widest uppercase">Contact</span>
+          </button>
+        </motion.div>
+      </div>
     </>
   );
 }
-
-
-

@@ -9,8 +9,6 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import SEO from "./components/SEO";
 import IntentPause from "./components/WelcomeScreen";
-import SectionDivider from "./components/SectionDivider";
-import CanvasBackground from "./components/ui/CanvasBackground";
 import portrait from "./assets/profile.jpg";
 import logo from "./assets/kanniyakumarione logo.png";
 
@@ -72,16 +70,13 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
-            className="relative bg-background text-white selection:bg-[#E8C67E] selection:text-black"
+            className="relative bg-background text-white selection:bg-[#60a5fa] selection:text-black"
           >
-            <CanvasBackground />
             <Navbar />
             <main>
               <Hero />
-              <SectionDivider />
               <About />
               <Projects />
-              <SectionDivider />
               <Contact />
               <Footer />
             </main>

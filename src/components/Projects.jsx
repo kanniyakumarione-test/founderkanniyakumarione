@@ -3,40 +3,56 @@ import { ArrowUpRight } from "lucide-react";
 
 const initiatives = [
   {
-    title: "Global Venture Ecosystem",
-    role: "Founding Architect",
+    title: "Kanniyakumari One Portal",
+    role: "Founder & CEO",
     url: "https://www.kanniyakumarione.com/",
-    description: "The primary nexus for global digital innovation, facilitating multi-sector venture scaling and strategic ecosystem growth.",
-    outcome: "Unified infrastructure for next-gen ventures."
+    description: "The official website for local business listings, tourism, services, and community resources in Kanyakumari district.",
+    outcome: "Unified directory for the local community."
   },
   {
-    title: "Strategic Delivery Lab",
-    role: "Principal Strategist",
+    title: "Local Services Platform",
+    role: "Founder",
     url: "https://services.kanniyakumarione.com/",
-    description: "A specialized high-performance laboratory focused on architecting digital product lifecycle systems and mission-critical delivery.",
-    outcome: "Scalable frameworks for radical market agility."
+    description: "A dedicated platform for booking and managing local services, designed to empower local professionals and businesses.",
+    outcome: "Empowering the local service economy."
   },
   {
-    title: "Cultural Preservation Portal",
-    role: "Heritage Strategist",
+    title: "Tamil Bible App",
+    role: "Creator",
     url: "https://tamilbible.kanniyakumarione.com/",
     description: "A community-focused digital platform dedicated to linguistic heritage preservation and immersive spiritual accessibility.",
-    outcome: "Globally accessible repository for cultural study."
+    outcome: "Accessible spiritual resources in Tamil."
+  },
+  {
+    title: "Digital Invitations",
+    role: "Founder",
+    url: "https://invitation.kanniyakumarione.com/",
+    description: "A modern platform for creating and sharing beautiful, interactive digital invitations for weddings and special events.",
+    outcome: "Sustainable, smart event planning."
+  },
+  {
+    title: "KK One URL Shortener",
+    role: "Creator",
+    url: "https://kkoneurl.kanniyakumarione.com/",
+    description: "A custom URL shortening service designed to provide clean, manageable, and branded links for our community ecosystem.",
+    outcome: "Streamlined digital sharing."
   }
 ];
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-24 md:py-32 bg-[#050505]/30">
+    <section id="projects" className="py-16 md:py-24 relative z-10">
       <div className="container mx-auto px-6">
-        <div className="max-w-4xl mb-20 md:mb-32 space-y-8 md:space-y-12">
-          <span className="tag">Initiatives</span>
-          <h2 className="premium-gradient-text leading-[0.9]">
-            Strategic Ventures <br /> 
-            & <span className="italic font-normal text-white">Market Impact.</span>
+        <div className="max-w-4xl mb-12 md:mb-16 space-y-8">
+          <div className="w-fit">
+            <span className="tag">Our Platforms</span>
+          </div>
+          <h2 className="premium-gradient-text leading-tight">
+            Digital Platforms <br /> 
+            & Community Impact.
           </h2>
-          <p className="text-white/40 text-lg md:text-2xl max-w-2xl font-light leading-relaxed">
-            A curation of high-impact ventures defined by architectural excellence and precise market execution.
+          <p className="text-white/60 text-lg md:text-xl max-w-2xl font-light leading-relaxed">
+            A curation of our dedicated platforms built to serve, connect, and uplift the people of Kanyakumari.
           </p>
         </div>
 
@@ -51,21 +67,21 @@ export default function Projects() {
               className="group flex flex-col p-8 md:p-12 glass-panel relative overflow-hidden h-full"
             >
               <div className="flex justify-between items-start mb-16">
-                <span className="text-[10px] uppercase tracking-[0.5em] text-white/20 group-hover:text-[#E8C67E] transition-colors">
+                <span className="text-[10px] uppercase tracking-[0.5em] text-white/20 group-hover:text-[#60a5fa] transition-colors">
                   0{index + 1} // {item.role}
                 </span>
                 <a 
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-4 border border-white/5 rounded-full hover:border-[#E8C67E]/30 transition-all duration-500 bg-white/5"
+                  className="p-4 border border-white/5 rounded-full hover:border-[#60a5fa]/30 transition-all duration-500 bg-white/5"
                 >
-                  <ArrowUpRight size={20} className="text-white/30 group-hover:text-[#E8C67E]" />
+                  <ArrowUpRight size={20} className="text-white/30 group-hover:text-[#60a5fa]" />
                 </a>
               </div>
 
               <div className="space-y-6 flex-grow mb-16">
-                <h3 className="text-white text-2xl md:text-3xl leading-tight group-hover:text-[#E8C67E] transition-colors duration-500">
+                <h3 className="text-white text-2xl md:text-3xl leading-tight group-hover:text-[#60a5fa] transition-colors duration-500">
                   {item.title}
                 </h3>
                 <p className="text-white/40 font-light leading-relaxed text-sm md:text-base">
@@ -73,15 +89,15 @@ export default function Projects() {
                 </p>
               </div>
 
-              <div className="pt-8 border-t border-white/5">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-white/20 mb-3">Strategic Outcome</p>
-                <p className="font-serif italic text-white/70 text-lg">
+              <div className="pt-8 border-t border-white/10">
+                <p className="text-[10px] uppercase tracking-widest text-[#60a5fa] mb-2 font-bold">Goal</p>
+                <p className="font-medium italic text-white/90 text-sm">
                   "{item.outcome}"
                 </p>
               </div>
 
               {/* Sophisticated Glow */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#E8C67E]/5 blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#60a5fa]/5 blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
             </motion.div>
           ))}
         </div>

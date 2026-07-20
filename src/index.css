@@ -1,19 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&family=Space+Grotesk:wght@300;400;500;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #020202;
-  --surface: rgba(12, 12, 12, 0.4);
-  --surface-strong: rgba(5, 5, 5, 0.98);
-  --border: rgba(255, 255, 255, 0.04);
+  --background: #030712; /* Deep modern dark blue/gray */
+  --surface: rgba(15, 23, 42, 0.4);
+  --border: rgba(255, 255, 255, 0.08);
   --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.45);
-  --accent: #E8C67E; /* Champagne Gold */
-  --accent-muted: rgba(232, 198, 126, 0.12);
-  --glow: rgba(232, 198, 126, 0.08);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --accent: #3b82f6; /* Modern Blue */
+  --accent-secondary: #8b5cf6; /* Modern Purple */
+  --accent-muted: rgba(59, 130, 246, 0.1);
   
   --fluid-px: clamp(1.5rem, 8vw, 12rem);
   --fluid-py: clamp(5rem, 12vw, 15rem);
@@ -28,113 +27,152 @@
 
 html {
   background: var(--background);
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   background: var(--background);
   color: var(--text-primary);
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* Texture - Ultra Subtle */
+/* Vibrant Animated Background Glows */
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.015;
+  top: -20%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%);
+  border-radius: 50%;
   pointer-events: none;
-  z-index: 50;
+  z-index: -1;
+  filter: blur(80px);
+  animation: float 15s ease-in-out infinite alternate;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  bottom: -20%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(0,0,0,0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(100px);
+  animation: float 20s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(5%, 5%); }
 }
 
 h1, h2, h3, h4 {
-  font-family: "Cormorant Garamond", serif;
-  font-weight: 300;
-  letter-spacing: -0.04em; /* Tighter for sophistication */
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-h1 { font-size: clamp(3.2rem, 12vw, 10rem); line-height: 0.85; }
-h2 { font-size: clamp(2.4rem, 8vw, 6rem); line-height: 1; }
-h3 { font-size: clamp(1.8rem, 5vw, 3.2rem); line-height: 1.1; }
+h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1; }
+h2 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; }
+h3 { font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.2; }
 
+/* Modern Vibrant Gradient Text */
 .premium-gradient-text {
-  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 
 .tag {
   display: inline-flex;
   align-items: center;
-  padding: 0.6rem 1.2rem;
+  padding: 0.5rem 1rem;
   background: var(--accent-muted);
-  border: 1px solid rgba(232, 198, 126, 0.15);
-  color: var(--accent);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.4em;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #60a5fa;
+  font-family: "Outfit", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  border-radius: 2px;
+  border-radius: 100px; /* Modern Pill Shape */
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
 }
 
 .glass-panel {
-  background: var(--surface);
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
   border: 1px solid var(--border);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px; /* Soft Modern Corners */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
 }
 
 .glass-panel:hover {
-  border-color: rgba(232, 198, 126, 0.3);
-  background: rgba(232, 198, 126, 0.02);
+  border-color: rgba(96, 165, 250, 0.4);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.15);
 }
 
+/* Modern Pill Buttons */
 .button-primary {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 1.2rem 3.2rem;
-  background: var(--accent);
-  color: #000;
-  font-weight: 800;
-  font-size: 0.75rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
-  border-radius: 2px;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  color: #ffffff;
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  border-radius: 100px;
+  border: none;
+  box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
 }
 
 .button-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 40px -15px rgba(232, 198, 126, 0.4);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 15px 25px -5px rgba(59, 130, 246, 0.6);
+  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
 }
 
 .button-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 1.2rem 3.2rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
-  border-radius: 2px;
+  padding: 1rem 2.5rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  border-radius: 100px;
+  backdrop-filter: blur(10px);
 }
 
 .button-secondary:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  transform: translateY(-3px);
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 section {
@@ -142,24 +180,13 @@ section {
   position: relative;
 }
 
-/* Custom Utilities */
 .text-balance {
   text-wrap: balance;
 }
 
-.mask-fade-bottom {
-  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-}
-
-.premium-gradient-text {
-  background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.5) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -167,11 +194,11 @@ section {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: rgba(59, 130, 246, 0.5);
 }
 

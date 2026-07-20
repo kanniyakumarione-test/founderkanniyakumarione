@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet-async";
 
 export default function SEO({ title, description, image, url, type = "website" }) {
-  const siteTitle = "Roshinth Sojan | Founder & CEO of Kanniyakumarione";
+  const siteTitle = "Roshinth Sojan | Founder & CEO of Kanniyakumari One";
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
-  const siteDescription = "Roshinth Sojan, Founder & CEO of Kanniyakumarione, is a visionary strategist architecting high-trust digital ventures and global product systems.";
+  const siteDescription = "Roshinth Sojan, Founder & CEO of Kanniyakumari One, building the ultimate local directory, tourism guide, and smart city portal for Kanyakumari.";
   const metaDescription = description || siteDescription;
   const siteImage = "https://founder.kanniyakumarione.com/assets/kanniyakumarione%20logo.png";
   const metaImage = image || siteImage;
@@ -17,14 +17,14 @@ export default function SEO({ title, description, image, url, type = "website" }
     "jobTitle": "Founder & CEO",
     "organization": {
       "@type": "Organization",
-      "name": "Kanniyakumarione",
+      "name": "Kanniyakumari One",
       "url": "https://www.kanniyakumarione.com/"
     },
     "url": siteUrl,
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+91-7358847752",
-      "contactType": "Executive Office",
+      "contactType": "Contact",
       "email": "kanniyakumarione@gmail.com"
     },
     "image": siteImage,
@@ -35,15 +35,15 @@ export default function SEO({ title, description, image, url, type = "website" }
       "https://twitter.com/kanniyakumarione",
       "https://www.linkedin.com/in/roshinth-sojan-846880264/"
     ],
-    "description": "Founder and Principal Strategist of Kanniyakumarione, spearheading a global ecosystem of digital ventures, strategic labs, and cultural heritage initiatives.",
-    "knowsAbout": ["Digital Transformation", "Product Strategy", "Venture Capital", "System Architecture", "Leadership"]
+    "description": "Founder and CEO of Kanniyakumari One, the official website for local business listings, tourism, services, and community resources in Kanyakumari district.",
+    "knowsAbout": ["Local Directory", "Tourism", "Community Platform", "Leadership"]
   };
 
   return (
     <Helmet>
       <title>{fullTitle}</title>
       <meta name="description" content={metaDescription} />
-      <meta name="keywords" content="Roshinth Sojan, Kanniyakumarione, Founder, CEO, Digital Strategy, Product Architect, Venture Building, Tech Leadership, Kanniyakumari, Global Ventures" />
+      <meta name="keywords" content="Roshinth Sojan, Kanniyakumari One, Founder, CEO, Kanyakumari, Local Directory, Tourism, Community Hub" />
       <meta name="author" content="Roshinth Sojan" />
       <link rel="canonical" href={metaUrl} />
 
