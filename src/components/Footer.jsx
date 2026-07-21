@@ -23,7 +23,15 @@ export default function Footer() {
               </p>
             </div>
             
-            <div className="flex gap-10">
+            <div className="flex flex-wrap gap-8 md:gap-10">
+              <a 
+                href="https://roshinth-sojan-portfolio.vercel.app/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-xs uppercase tracking-widest font-semibold text-white/50 hover:text-[#60a5fa] transition-colors"
+              >
+                Portfolio
+              </a>
               <a 
                 href="https://www.linkedin.com/in/roshinth-sojan-846880264/" 
                 target="_blank" 

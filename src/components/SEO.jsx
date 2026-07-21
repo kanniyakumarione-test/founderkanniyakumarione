@@ -29,6 +29,7 @@ export default function SEO({ title, description, image, url, type = "website" }
     },
     "image": siteImage,
     "sameAs": [
+      "https://roshinth-sojan-portfolio.vercel.app/",
       "https://www.kanniyakumarione.com/",
       "https://services.kanniyakumarione.com/",
       "https://tamilbible.kanniyakumarione.com/",

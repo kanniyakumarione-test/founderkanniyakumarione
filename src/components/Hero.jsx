@@ -1,11 +1,7 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import portrait from "../assets/profile.jpg";
 
 export default function Hero() {
-  const { scrollY } = useScroll();
-  const yText = useTransform(scrollY, [0, 500], [0, 100]);
-  const yImage = useTransform(scrollY, [0, 500], [0, -50]);
-  
   const scrollTo = (id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -55,6 +51,16 @@ export default function Hero() {
                   Get in Touch
                 </button>
               </div>
+              <div className="flex justify-center lg:justify-start pt-2">
+                <a 
+                  href="https://roshinth-sojan-portfolio.vercel.app/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-xs uppercase tracking-widest font-semibold text-white/40 hover:text-[#60a5fa] transition-colors"
+                >
+                  Explore My Personal Portfolio →
+                </a>
+              </div>
             </motion.div>
 
             <motion.div 
@@ -79,8 +85,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            style={{ y: yImage }}
-            className="relative w-full max-w-sm mx-auto lg:ml-auto lg:mr-0 group"
+            className="relative w-full max-w-sm mx-auto lg:ml-auto lg:mr-0 group mt-10 lg:mt-0"
           >
             <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl z-10">
               <motion.div

@@ -1,27 +1,27 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Home, LayoutGrid, Phone, User } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import logo from "../assets/kanniyakumarione logo.png";
 
 const sections = [
-  { label: "Home", id: "home", icon: <Home size={20} /> },
-  { label: "Vision", id: "about", icon: <User size={20} /> },
-  { label: "Platforms", id: "projects", icon: <LayoutGrid size={20} /> },
+  { label: "Home", id: "home" },
+  { label: "Vision", id: "about" },
+  { label: "Platforms", id: "projects" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("home");
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
-      const allSections = [...sections, { id: "contact" }];
+      const allSections = [...sections, { id: "contact", label: "Contact" }];
       const activeSection = allSections.find(s => {
         const el = document.getElementById(s.id);
         if (!el) return false;
         const r = el.getBoundingClientRect();
-        // Check if section is well within viewport
         return r.top <= 200 && r.bottom >= 200;
       });
       if (activeSection) setActive(activeSection.id);
@@ -32,23 +32,23 @@ export default function Navbar() {
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setIsOpen(false);
   };
 
   return (
     <>
-      {/* =========================================
-          DESKTOP NAVBAR (Hidden on Mobile)
-          ========================================= */}
       <nav
-        className={`hidden md:block fixed top-0 left-0 w-full z-[100] transition-all duration-700 ${
+        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-700 ${
           scrolled ? "py-4 bg-[#030712]/70 backdrop-blur-2xl border-b border-white/10 shadow-lg" : "py-8"
         }`}
       >
         <div className="container mx-auto px-6 flex items-center justify-between">
+          
+          {/* LOGO */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center gap-4 cursor-pointer group"
+            className="flex items-center gap-4 cursor-pointer group z-[101]"
             onClick={() => scrollTo("home")}
           >
             <div className="relative h-10 w-10">
@@ -60,7 +60,10 @@ export default function Navbar() {
             </span>
           </motion.div>
 
-          <div className="flex items-center gap-12 lg:gap-16">
+          {/* =========================================
+              DESKTOP LINKS (Hidden on Mobile)
+              ========================================= */}
+          <div className="hidden md:flex items-center gap-12 lg:gap-16">
             {sections.map((item) => (
               <button
                 key={item.id}
@@ -84,76 +87,58 @@ export default function Navbar() {
               Contact
             </button>
           </div>
+
+          {/* =========================================
+              MOBILE MENU TOGGLE
+              ========================================= */}
+          <button 
+            className="md:hidden text-white p-2 relative z-[101] bg-white/5 border border-white/10 rounded-full backdrop-blur-md"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle Menu"
+          >
+            {isOpen ? <X size={24} strokeWidth={1.5} className="text-[#60a5fa]" /> : <Menu size={24} strokeWidth={1.5} />}
+          </button>
+
         </div>
       </nav>
 
       {/* =========================================
-          MOBILE MINIMAL TOP BAR (Logo Only)
+          MOBILE FULLSCREEN MENU OVERLAY
           ========================================= */}
-      <nav
-        className={`md:hidden fixed top-0 left-0 w-full z-[90] transition-all duration-500 ${
-          scrolled ? "py-3 bg-[#030712]/90 backdrop-blur-xl border-b border-white/10 shadow-md" : "py-6 bg-transparent"
-        }`}
-      >
-        <div className="container mx-auto px-6 flex justify-center">
-          <motion.div 
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-3 cursor-pointer"
-            onClick={() => scrollTo("home")}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[90] bg-[#030712]/98 backdrop-blur-3xl md:hidden flex flex-col items-center justify-center px-6"
           >
-            <div className="h-8 w-8">
-               <img src={logo} alt="Logo" className="h-full w-full object-contain" />
+            <div className="w-full max-w-sm space-y-8">
+              {[...sections, { id: "contact", label: "Contact" }].map((item, i) => (
+                <motion.button
+                  key={item.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.1, duration: 0.4 }}
+                  onClick={() => scrollTo(item.id)}
+                  className="w-full group text-center block"
+                >
+                  <span className={`block text-3xl font-bold tracking-tight transition-all duration-300 ${active === item.id ? "text-[#60a5fa]" : "text-white/60 group-hover:text-white"}`}>
+                    {item.label}
+                  </span>
+                  {active === item.id && (
+                    <motion.div layoutId="mobile-indicator" className="w-12 h-[2px] bg-[#60a5fa] mx-auto mt-4 rounded-full" />
+                  )}
+                </motion.button>
+              ))}
             </div>
-            <span className="text-lg font-bold tracking-tight text-white">
-              Kanniyakumari One
-            </span>
+            
+            {/* Ambient Mobile Glow */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-[#3b82f6]/20 blur-[120px] rounded-full pointer-events-none" />
           </motion.div>
-        </div>
-      </nav>
-
-      {/* =========================================
-          MOBILE NAVBAR (Floating Bottom Dock)
-          ========================================= */}
-      <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-sm">
-        <motion.div 
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center justify-between bg-[#030712]/90 backdrop-blur-2xl border border-white/10 p-2 rounded-full shadow-2xl"
-        >
-          {sections.map((item) => {
-            const isActive = active === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => scrollTo(item.id)}
-                className={`flex flex-col items-center justify-center w-16 h-14 rounded-full transition-all duration-300 ${
-                  isActive ? "bg-[#3b82f6]/10 text-[#60a5fa]" : "text-white/40 hover:text-white"
-                }`}
-              >
-                <div className={`${isActive ? "scale-110 mb-1" : "scale-100 mb-1"} transition-transform duration-300`}>
-                  {item.icon}
-                </div>
-                <span className="text-[9px] font-bold tracking-widest uppercase">{item.label}</span>
-              </button>
-            );
-          })}
-
-          {/* Mobile Contact Button */}
-          <button
-            onClick={() => scrollTo("contact")}
-            className={`flex flex-col items-center justify-center w-16 h-14 rounded-full transition-all duration-300 ${
-              active === "contact" ? "bg-[#3b82f6]/10 text-[#60a5fa]" : "text-white/40 hover:text-white"
-            }`}
-          >
-            <div className={`${active === "contact" ? "scale-110 mb-1" : "scale-100 mb-1"} transition-transform duration-300`}>
-              <Phone size={20} />
-            </div>
-            <span className="text-[9px] font-bold tracking-widest uppercase">Contact</span>
-          </button>
-        </motion.div>
-      </div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
