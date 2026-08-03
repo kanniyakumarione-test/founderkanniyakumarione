@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import portrait from "../assets/profile.jpg";
+import portrait from "../assets/profile-optimized.jpg";
 
 export default function Hero() {
   const scrollTo = (id) => {

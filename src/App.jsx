@@ -9,8 +9,8 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import SEO from "./components/SEO";
 import IntentPause from "./components/WelcomeScreen";
-import portrait from "./assets/profile.jpg";
-import logo from "./assets/kanniyakumarione logo.png";
+import portrait from "./assets/profile-optimized.jpg";
+import logo from "./assets/logo-optimized.png";
 
 export default function App() {
   const [loading, setLoading] = useState(true);

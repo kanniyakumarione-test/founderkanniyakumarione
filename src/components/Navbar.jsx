@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import logo from "../assets/kanniyakumarione logo.png";
+import logo from "../assets/logo-optimized.png";
 
 const sections = [
   { label: "Home", id: "home" },
